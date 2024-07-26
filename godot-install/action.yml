@@ -1,0 +1,21 @@
+name: 'Install Godot'
+description: 'Build a godot project '
+inputs:
+  godot-version:
+    description: Version of Godot executable to use
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Cache Godot Executable
+      id: cache-godot-executable
+      uses: actions/cache@v4
+      with:
+        path: godot
+        key: godot-${{ inputs.godot-version }}
+
+    - name: Download Godot Executable
+      if: steps.cache-godot-executable.outputs.cache-hit != 'true'
+      shell: bash
+      run: sh ./actions/tools/download-godot-executable.sh ${{ inputs.godot-version }} $GITHUB_WORKSPACE

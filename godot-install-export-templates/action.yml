@@ -1,0 +1,25 @@
+name: 'Install Godot Export Templates'
+description: 'Install and cache Godot export templates'
+inputs:
+  godot-version:
+    description: Version of Godot to use
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Cache Godot Export Templates
+      id: cache-godot-export-templates
+      uses: actions/cache@v4
+      with:
+        path: godot-export-templates
+        key: godot-export-templates-${{ inputs.godot-version }}
+
+    - name: Download Godot Executable
+      if: steps.cache-godot-export-templates.outputs.cache-hit != 'true'
+      shell: bash
+      run: sh ./actions/tools/download-godot-export-templates.sh ${{ inputs.godot-version }} $GITHUB_WORKSPACE
+
+    - name: Link Godot Templates
+      shell: bash
+      run: sh ./actions/tools/link-godot-export-templates.sh ${{ inputs.godot-version }}

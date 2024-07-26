@@ -1,0 +1,36 @@
+name: 'Export Godot Project'
+description: 'Export a godot project'
+inputs:
+  godot-version:
+    description: Version of Godot executable to use
+    required: true
+  export-configuration:
+    description: Name of export configuration to run
+    required: true
+  rewrite-index-html:
+    description: Rename main html file to index.html for publishing
+    required: true
+    default: "true"
+
+outputs:
+  export-archive:
+    description: Path to archive containing exported Godot project
+    value: ${{ steps.export.outputs.export-archive }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install Godot
+      uses: ./actions/godot-install
+      with:
+        godot-version: ${{ inputs.godot-version }}
+
+    - name: Install Godot Export Templates
+      uses: ./actions/godot-install-export-templates
+      with:
+        godot-version: ${{ inputs.godot-version }}
+
+    - name: Export Godot Project
+      id: export
+      shell: bash
+      run: bash ./actions/tools/export-godot.sh ${{ inputs.export-configuration }} ${{ inputs.rewrite-index-html }}
