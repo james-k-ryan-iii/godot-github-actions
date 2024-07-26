@@ -21,16 +21,16 @@ runs:
   using: "composite"
   steps:
     - name: Install Godot
-      uses: ./actions/godot-install
+      uses: james-k-ryan-iii/godot-github-actions/godot-install@main
       with:
         godot-version: ${{ inputs.godot-version }}
 
     - name: Install Godot Export Templates
-      uses: ./actions/godot-install-export-templates
+      uses: james-k-ryan-iii/godot-github-actions/godot-install-export-templates@main
       with:
         godot-version: ${{ inputs.godot-version }}
 
     - name: Export Godot Project
       id: export
       shell: bash
-      run: bash ./actions/tools/export-godot.sh ${{ inputs.export-configuration }} ${{ inputs.rewrite-index-html }}
+      run: bash ${{ github.action_path }}/../tools/export-godot.sh ${{ inputs.export-configuration }} ${{ inputs.rewrite-index-html }}

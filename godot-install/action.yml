@@ -18,4 +18,4 @@ runs:
     - name: Download Godot Executable
       if: steps.cache-godot-executable.outputs.cache-hit != 'true'
       shell: bash
-      run: sh ./actions/tools/download-godot-executable.sh ${{ inputs.godot-version }} $GITHUB_WORKSPACE
+      run: sh ${{ github.action_path }}/../tools/download-godot-executable.sh ${{ inputs.godot-version }} $GITHUB_WORKSPACE

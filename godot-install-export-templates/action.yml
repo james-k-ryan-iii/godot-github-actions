@@ -18,8 +18,8 @@ runs:
     - name: Download Godot Executable
       if: steps.cache-godot-export-templates.outputs.cache-hit != 'true'
       shell: bash
-      run: sh ./actions/tools/download-godot-export-templates.sh ${{ inputs.godot-version }} $GITHUB_WORKSPACE
+      run: sh ${{ github.action_path }}/../tools/download-godot-export-templates.sh ${{ inputs.godot-version }} $GITHUB_WORKSPACE
 
     - name: Link Godot Templates
       shell: bash
-      run: sh ./actions/tools/link-godot-export-templates.sh ${{ inputs.godot-version }}
+      run: sh ${{ github.action_path }}/../tools/link-godot-export-templates.sh ${{ inputs.godot-version }}
